@@ -1,15 +1,21 @@
 const int boton = 2;
-const int led = 13;
+const int ledNormal = 13;
+const int ledInvertido = 12;
 
 void setup() {
-  pinMode(boton, INPUT_PULLUP);  // Activa resistencia interna
-  pinMode(led, OUTPUT);
+  pinMode(boton, INPUT_PULLUP);
+  pinMode(ledNormal, OUTPUT);
+  pinMode(ledInvertido, OUTPUT);
 }
 
 void loop() {
-  if (digitalRead(boton) == LOW) {  // Cuando presionas el botón
-    digitalWrite(led, HIGH);        // Enciende LED
+  if (digitalRead(boton) == LOW) {  
+    // Botón presionado
+    digitalWrite(ledNormal, HIGH);      // Normal encendido
+    digitalWrite(ledInvertido, LOW);    // Invertido apagado
   } else {
-    digitalWrite(led, LOW);         // Apaga LED
+    // Botón NO presionado
+    digitalWrite(ledNormal, LOW);       
+    digitalWrite(ledInvertido, HIGH);   
   }
 }
