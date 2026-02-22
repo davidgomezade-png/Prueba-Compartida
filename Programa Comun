@@ -1,15 +1,39 @@
 const int boton = 2;
-const int led = 13;
+const int ledNormal = 13;
+const int ledInvertido = 12;
+const int buzzer = 8;
+
+int estadoAnterior = HIGH;  // Estado previo del botón
 
 void setup() {
-  pinMode(boton, INPUT_PULLUP);  // Activa resistencia interna
-  pinMode(led, OUTPUT);
+  pinMode(boton, INPUT_PULLUP);
+  pinMode(ledNormal, OUTPUT);
+  pinMode(ledInvertido, OUTPUT);
+  pinMode(buzzer, OUTPUT);
 }
 
 void loop() {
-  if (digitalRead(boton) == LOW) {  // Cuando presionas el botón
-    digitalWrite(led, HIGH);        // Enciende LED
+  int estadoActual = digitalRead(boton);
+
+  // Control de LEDs
+  if (estadoActual == LOW) {  
+    digitalWrite(ledNormal, HIGH);
+    digitalWrite(ledInvertido, LOW);
   } else {
-    digitalWrite(led, LOW);         // Apaga LED
+    digitalWrite(ledNormal, LOW);
+    digitalWrite(ledInvertido, HIGH);
   }
+
+  // Detección de cambio de estado del botón
+  if (estadoActual != estadoAnterior) {
+    if (estadoActual == LOW) {
+      // Botón presionado → sonido 1
+      tone(buzzer, 1000, 200);  // 1000 Hz por 200 ms
+    } else {
+      // Botón soltado → sonido 2
+      tone(buzzer, 500, 200);   // 500 Hz por 200 ms
+    }
+  }
+
+  estadoAnterior = estadoActual;
 }
